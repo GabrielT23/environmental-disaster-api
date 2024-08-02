@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { IsString, IsEmail, IsEnum, IsUUID, isNotEmpty, IsNotEmpty } from 'class-validator';
+import { IsString, IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
 import { Role } from '@prisma/client';
 
 export class CreateUserDto {
@@ -20,17 +20,14 @@ export class CreateUserDto {
   cpf: string;
 }
 
-  
-  export interface User {
-    id: string;
-    name: string;
-    email: string;
-    cpf: string;
-    role: Role;
-    createdAt: Date;
-    updatedAt: Date;
-  }
-
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  cpf: string;
+  role: Role;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
-  

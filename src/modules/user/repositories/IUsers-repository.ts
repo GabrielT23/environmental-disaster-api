@@ -1,5 +1,4 @@
-
-import { CreateUserDto, User } from "../dtos/userDTO";
+import { CreateUserDto, User } from '../dtos/userDTO';
 
 export abstract class IUsersRepository {
   abstract create(user: CreateUserDto): Promise<User>;
