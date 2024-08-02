@@ -2,9 +2,10 @@
 import { CreateUserDto, User } from "../dtos/userDTO";
 
 export abstract class IUsersRepository {
-  abstract create(client: CreateUserDto): Promise<void>;
-  abstract save(client: User): Promise<void>;
-  abstract findById(clientId: string): Promise<User | null>;
-  abstract findByEmail(clientEmail: string): Promise<User | null>;
-  abstract deleteById(clientId: string): Promise<void>;
+  abstract create(user: CreateUserDto): Promise<User>;
+  abstract update(id: string, user: Partial<User>): Promise<User>;
+  abstract findAll(): Promise<User[]>;
+  abstract findById(id: string): Promise<User | null>;
+  abstract findByEmail(userEmail: string): Promise<User | null>;
+  abstract deleteById(id: string): Promise<void>;
 }
