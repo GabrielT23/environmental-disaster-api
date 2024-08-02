@@ -8,28 +8,22 @@ export class CreateUserDto {
   name: string;
 
   @IsEmail()
+  @IsNotEmpty({ message: 'email é obrigatório' })
   email: string;
 
   @IsString()
+  @IsNotEmpty({ message: 'senha é obrigatória' })
   password: string;
 
   @IsEnum(Role)
+  @IsNotEmpty({ message: 'Role é obrigatória' })
   role: Role;
 
   @IsString()
+  @IsNotEmpty({ message: 'Cpf é obrigatório' })
   cpf: string;
 }
 
-  
-  export interface User {
-    id: string;
-    name: string;
-    email: string;
-    cpf: string;
-    role: Role;
-    createdAt: Date;
-    updatedAt: Date;
-  }
 
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
