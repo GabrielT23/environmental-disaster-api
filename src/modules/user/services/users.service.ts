@@ -1,9 +1,6 @@
-import { PrismaService } from '@modules/prisma/infra/database/prisma.service';
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto, User } from '../dtos/userDTO';
-import { UsersRepository } from '../repositories/implementations/prisma-users-repository';
 import { IUsersRepository } from '../repositories/IUsers-repository';
-
 
 @Injectable()
 export class UsersService {
@@ -16,22 +13,21 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    const users = await this.usersRepository.findAll()
+    const users = await this.usersRepository.findAll();
     return users;
   }
 
   async findOne(id: string): Promise<User> {
-    const user = await this.usersRepository.findById(id)
-    return user
+    const user = await this.usersRepository.findById(id);
+    return user;
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
-
-    const user = await this.usersRepository.update(id, updateUserDto)
+    const user = await this.usersRepository.update(id, updateUserDto);
     return user;
   }
 
   async remove(id: string): Promise<void> {
-    await this.usersRepository.deleteById(id)
+    await this.usersRepository.deleteById(id);
   }
 }
