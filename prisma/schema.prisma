@@ -46,3 +46,18 @@ model Category {
 
   @@map("categories")
 }
+
+model Campaign {
+  id            String       @id @default(uuid())
+  name          String
+  description   String
+  goalAmount    Float?
+  raisedAmount  Float?   @default(0)
+  startDate     DateTime
+  endDate       DateTime
+  status        String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt   
+
+  @@map("campaigns") 
+}
