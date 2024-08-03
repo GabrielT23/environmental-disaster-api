@@ -15,7 +15,7 @@ datasource db {
 
 enum Role {
   admin
-  cliente
+  client
 }
 
 model User {
@@ -23,7 +23,7 @@ model User {
   name      String
   email     String   @unique
   password  String
-  role      Role     @default(cliente)
+  role      Role     @default(client)
   cpf       String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
