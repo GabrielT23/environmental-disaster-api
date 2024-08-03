@@ -18,6 +18,13 @@ enum Role {
   cliente
 }
 
+enum CampaignStatus {
+  active
+  completed
+  pending
+  cancelled
+}
+
 model User {
   id        String   @id @default(uuid())
   name      String
@@ -45,4 +52,21 @@ model Category {
   updatedAt DateTime       @updatedAt
 
   @@map("categories")
+}
+
+model Campaign {
+  id            String         @id @default(uuid())
+  name          String
+  description   String
+  goalAmount    Float?         @default(0)
+  raisedAmount  Float?         @default(0)
+  startDate     DateTime       
+  endDate       DateTime 
+  status        CampaignStatus @default(active)
+  latitude      Float          @default(0.0)
+  longitude     Float          @default(0.0)
+  qrCode        String         @default("")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt   
+  @@map("campaigns") 
 }

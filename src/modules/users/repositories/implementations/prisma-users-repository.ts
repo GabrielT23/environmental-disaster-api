@@ -19,29 +19,25 @@ export class UsersRepository implements IUsersRepository {
     return userUpdate;
   }
 
-    async findAll(){
-        const users = this.prisma.user.findMany()
-        return users;
-    }
-    async findById(id: string): Promise<User | null> {
-        const user = await this.prisma.user.findUnique({ where: { id } });
-        return user;
-    }
-    async findByEmailORCpf(email: string, cpf: string): Promise<User | null> {
-        const user = await this.prisma.user.findFirst({
-            where: {
-              OR: [
-                { email },
-                { cpf },
-              ],
-            },
-          });
-        return user;
-    }
-    async deleteById(id: string): Promise<void> {
-        await this.prisma.user.delete({
-          where: { id },
-        });
-    }
-
+  async findAll() {
+    const users = this.prisma.user.findMany();
+    return users;
+  }
+  async findById(id: string): Promise<User | null> {
+    const user = await this.prisma.user.findUnique({ where: { id } });
+    return user;
+  }
+  async findByEmailORCpf(email: string, cpf: string): Promise<User | null> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { cpf }],
+      },
+    });
+    return user;
+  }
+  async deleteById(id: string): Promise<void> {
+    await this.prisma.user.delete({
+      where: { id },
+    });
+  }
 }
