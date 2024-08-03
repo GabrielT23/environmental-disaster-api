@@ -24,14 +24,4 @@ export class CreateUserDto {
   cpf: string;
 }
 
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  cpf: string;
-  role: Role;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
