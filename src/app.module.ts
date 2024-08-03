@@ -5,6 +5,7 @@ import { configuration } from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
 import { CategoriesModule } from '@modules/categories/categories.module';
 import { AuthModule } from '@modules/auth/auth.module';
+import { CampaignsModule } from '@modules/campaigns/campaigns.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { AuthModule } from '@modules/auth/auth.module';
     UsersModule,
     PrismaModule,
     CategoriesModule,
-    AuthModule
+    AuthModule,
+    CampaignsModule,
   ],
 })
 export class AppModule {}

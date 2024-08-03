@@ -1,5 +1,8 @@
-import { PrismaService } from '@modules/prisma/infra/database/prisma.service';
-import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from '../dtos/userDTO';
 import { IUsersRepository } from '../repositories/IUsers-repository';
 import { hash } from 'bcryptjs';
@@ -34,22 +37,19 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const userExist = await this.usersRepository.findById(id);
     let passwordHash = null;
-    if(updateUserDto.password){
+    if (updateUserDto.password) {
       passwordHash = await hash(updateUserDto.password, 8);
     }
-    if(passwordHash)
-      updateUserDto.password = passwordHash;
-    if(!userExist)
-      throw new NotFoundException('Usuário não existe');
+    if (passwordHash) updateUserDto.password = passwordHash;
+    if (!userExist) throw new NotFoundException('Usuário não existe');
 
     const user = await this.usersRepository.update(id, updateUserDto);
     return user;
   }
 
   async remove(id: string): Promise<void> {
-    const userExist = await this.usersRepository.findById(id)
-    if(!userExist)
-      throw new NotFoundException('Usuário não existe');
+    const userExist = await this.usersRepository.findById(id);
+    if (!userExist) throw new NotFoundException('Usuário não existe');
     await this.usersRepository.deleteById(id);
   }
 }
