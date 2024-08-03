@@ -9,6 +9,7 @@
     "target": "ES2021",
     "paths": {
       "@modules/*": ["./src/modules/*"],
+      "@config/*": ["./src/config/*"],
     },
     "sourceMap": true,
     "outDir": "./dist",

@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { IUsersRepository } from '../IUsers-repository';
-import { CreateUserDto, User } from '@modules/user/dtos/userDTO';
+import { CreateUserDto } from '@modules/users/dtos/userDTO';
 import { PrismaService } from '@modules/prisma/infra/database/prisma.service';
+import { User } from '@prisma/client';
 @Injectable()
 export class UsersRepository implements IUsersRepository {
   constructor(private readonly prisma: PrismaService) {}
@@ -26,10 +27,17 @@ export class UsersRepository implements IUsersRepository {
     const user = await this.prisma.user.findUnique({ where: { id } });
     return user;
   }
-  async findByEmail(clientEmail: string): Promise<User | null> {
-    throw new Error('Method not implemented.');
+  async findByEmailORCpf(email: string, cpf: string): Promise<User | null> {
+    const user = await this.prisma.user.findFirst({
+      where: {
+        OR: [{ email }, { cpf }],
+      },
+    });
+    return user;
   }
-  async deleteById(clientId: string): Promise<void> {
-    throw new Error('Method not implemented.');
+  async deleteById(id: string): Promise<void> {
+    await this.prisma.user.delete({
+      where: { id },
+    });
   }
 }
