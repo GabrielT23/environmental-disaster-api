@@ -1,9 +1,10 @@
 import { Logger } from '@nestjs/common';
-import { z as zod } from 'zod';
 import { config } from 'dotenv';
+import { z as zod } from 'zod';
 
 config();
 export interface Config {
+  nodeEnv: 'development' | 'production';
   port: number;
   databaseUrl: string;
   hashSecret: string;
@@ -15,14 +16,21 @@ export interface Config {
     storageBucketName: string;
     storageKey: string;
   };
-  gmailUser: string;
-  gmailPassword: string;
+  mail: {
+    host: string;
+    secure: boolean;
+    port: number;
+    name: string;
+    address: string;
+    pass: string;
+  };
 }
 
 export const configuration = (): Config => {
   const logger = new Logger();
 
   const envSchema = zod.object({
+    NODE_ENV: zod.enum(['development', 'production']),
     DATABASE_URL: zod.string().min(1),
     APP_URL: zod.string().url().min(1),
     PORT: zod.string().min(1).regex(/^\d+$/).default('3000').transform(Number),
@@ -33,8 +41,12 @@ export const configuration = (): Config => {
     GOOGLE_CLOUD_STORAGE_KEY: zod.string().min(1),
     STORAGE_DRIVER: zod.enum(['disk', 'google-cloud']).default('disk'),
 
-    GMAIL_USER: zod.string().email().min(1),
-    GMAIL_PASSWORD: zod.string().min(1),
+    MAIL_HOST: zod.string(),
+    MAIL_SECURE: zod.union([zod.literal('true'), zod.literal('false')]),
+    MAIL_PORT: zod.string().transform(Number),
+    MAIL_NAME: zod.string(),
+    MAIL_ADDRESS: zod.string(),
+    MAIL_PASS: zod.string(),
   });
 
   const envData = envSchema.safeParse(process.env);
@@ -48,6 +60,7 @@ export const configuration = (): Config => {
   const { data } = envData;
 
   return {
+    nodeEnv: data.NODE_ENV,
     port: data.PORT,
     appUrl: data.APP_URL,
     databaseUrl: data.DATABASE_URL,
@@ -59,7 +72,13 @@ export const configuration = (): Config => {
       storageKey: data.GOOGLE_CLOUD_STORAGE_KEY,
     },
     storageDriver: data.STORAGE_DRIVER,
-    gmailUser: data.GMAIL_USER,
-    gmailPassword: data.GMAIL_PASSWORD,
+    mail: {
+      host: data.MAIL_HOST,
+      secure: data.MAIL_SECURE === 'true',
+      port: data.MAIL_PORT,
+      name: data.MAIL_NAME,
+      address: data.MAIL_ADDRESS,
+      pass: data.MAIL_PASS,
+    },
   };
 };
