@@ -1,6 +1,5 @@
-
-import { User } from "@prisma/client";
-import { CreateUserDto } from "../dtos/userDTO";
+import { User } from '@prisma/client';
+import { CreateUserDto } from '../dtos/userDTO';
 
 export abstract class IUsersRepository {
   abstract create(user: CreateUserDto): Promise<User>;

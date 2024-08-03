@@ -3,12 +3,16 @@ import { UsersModule } from '@modules/users/user.module';
 import { PrismaModule } from '@modules/prisma/prisma.module';
 import { configuration } from './config/configuration';
 import { ConfigModule } from '@nestjs/config';
+import { CategoriesModule } from '@modules/categories/categories.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [configuration],
     }),
-    UsersModule, PrismaModule],
+    UsersModule,
+    PrismaModule,
+    CategoriesModule,
+  ],
 })
 export class AppModule {}

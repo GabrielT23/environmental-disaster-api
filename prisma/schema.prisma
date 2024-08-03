@@ -13,7 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 enum Role {
   admin
   cliente
@@ -30,4 +29,20 @@ model User {
   updatedAt DateTime @updatedAt
 
   @@map("users")
+}
+
+enum CategoryStatus {
+  active
+  pending
+  inactive
+}
+
+model Category {
+  id        String         @id @default(uuid())
+  name      String
+  status    CategoryStatus @default(active)
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  @@map("categories")
 }
