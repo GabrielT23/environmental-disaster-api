@@ -1,5 +1,5 @@
 import { JwtModuleOptions } from '@nestjs/jwt';
-import { configuration } from '@config/configuration';
+import { configuration } from './configuration';
 
 const config = configuration();
 
