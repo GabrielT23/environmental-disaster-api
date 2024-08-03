@@ -2,10 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { ICampaignsRepository } from '../repositories/campaigns-repository.abstract';
 import { CreateCampaignDto, UpdateCampaignDto } from '../dtos/campaignsDTO';
 import { Campaign } from '@prisma/client';
+import { EmailService } from '@core/infra/services/email.service';
 
 @Injectable()
 export class CampaignsService {
-  constructor(private readonly campaignsRepository: ICampaignsRepository) {}
+  constructor(
+    private readonly campaignsRepository: ICampaignsRepository,
+    private readonly emailService: EmailService,
+  ) {}
 
   async create(createCampaignDto: CreateCampaignDto): Promise<Campaign> {
     const campaign = await this.campaignsRepository.create(createCampaignDto);

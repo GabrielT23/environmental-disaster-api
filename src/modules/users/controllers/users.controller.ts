@@ -1,3 +1,5 @@
+import { AuthGuard } from '@modules/auth/providers/auth.guard';
+import { RoleUser } from '@modules/auth/role.decorator';
 import {
   Body,
   Controller,
@@ -6,15 +8,10 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from '../dtos/userDTO';
 import { UsersService } from '../services/users.service';
-import { RoleUSer } from '@modules/auth/role.decorator';
-import { AuthGuard } from '@modules/auth/providers/auth.guard';
-
-
 
 @Controller('/users')
 export class UsersController {
@@ -27,7 +24,7 @@ export class UsersController {
   }
 
   @UseGuards(AuthGuard)
-  @RoleUSer('client')
+  @RoleUser('client')
   @Get()
   async findAll() {
     return await this.usersService.findAll();
