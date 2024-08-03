@@ -5,7 +5,7 @@ import {
   UpdateOccurenceDto,
 } from '@modules/occurences/dtos/occurrenceDTO';
 import { Occurrence } from '@prisma/client';
-import { PrismaService } from '@modules/prisma/infra/database/prisma.service';
+import { PrismaService } from '@core/data/prisma/prisma.service';
 
 @Injectable()
 export class OccurrencesRepository implements IOccurrencesRepository {
