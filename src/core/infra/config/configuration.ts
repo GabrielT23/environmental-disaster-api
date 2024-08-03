@@ -24,6 +24,8 @@ export const configuration = (): Config => {
     DATABASE_URL: zod.string().min(1),
     APP_URL: zod.string().url().min(1),
     PORT: zod.string().min(1).regex(/^\d+$/).default('3000').transform(Number),
+    JWT_SECRET: zod.string().min(1),
+
     GOOGLE_CLOUD_PROJECT_ID: zod.string().min(1),
     GOOGLE_CLOUD_STORAGE_BUCKET_NAME: zod.string().min(1),
     GOOGLE_CLOUD_STORAGE_KEY: zod.string().min(1),
@@ -45,7 +47,7 @@ export const configuration = (): Config => {
     appUrl: data.APP_URL,
     databaseUrl: data.DATABASE_URL,
     hashSecret: String(process.env.HASH_SECRET),
-    jwtSecret: String(process.env.JWT_SECRET),
+    jwtSecret: data.JWT_SECRET,
     googleCloud: {
       projectId: data.GOOGLE_CLOUD_PROJECT_ID,
       storageBucketName: data.GOOGLE_CLOUD_STORAGE_BUCKET_NAME,
