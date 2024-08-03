@@ -6,7 +6,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import path from 'path';
+import * as path from 'path';
 import * as uuid from 'uuid';
 import { FileOptions, Storage, UploadOptions } from './storage';
 import { FileService } from '@core/infra/services/file.service';

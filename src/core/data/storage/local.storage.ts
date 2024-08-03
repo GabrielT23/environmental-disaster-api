@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import path from 'path';
+import * as path from 'path';
 import * as uuid from 'uuid';
 import * as fs from 'fs';
 import { promisify } from 'util';
