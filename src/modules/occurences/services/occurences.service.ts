@@ -1,13 +1,34 @@
+import { Storage } from '@core/data/storage';
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { IOccurrencesRepository } from '../repositories/occurences-repository.abstract';
 import { CreateOccurenceDto, UpdateOccurenceDto } from '../dtos/occurrenceDTO';
+import { IOccurrencesRepository } from '../repositories/occurences-repository.abstract';
 
 @Injectable()
 export class OccurencesService {
-  constructor(private readonly occurrencesRepository: IOccurrencesRepository) {}
+  constructor(
+    private readonly occurrencesRepository: IOccurrencesRepository,
+    private readonly storage: Storage,
+  ) {}
 
   async create(data: CreateOccurenceDto) {
-    const newOccurence = await this.occurrencesRepository.create(data);
+    const { files } = data;
+    let fileNames: string[] = [];
+    if (files.length > 0) {
+      const filesOptions = await Promise.all(
+        files.map(async (file) => {
+          return await this.storage.uploadFile(file.filename, {
+            folderName: data.userId,
+          });
+        }),
+      );
+
+      fileNames = filesOptions.map((file) => file.fileName);
+    }
+
+    const newOccurence = await this.occurrencesRepository.create({
+      ...data,
+      files: fileNames,
+    });
 
     return newOccurence;
   }

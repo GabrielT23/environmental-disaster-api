@@ -8,9 +8,12 @@ import {
   Delete,
   ParseUUIDPipe,
   HttpCode,
+  UseInterceptors,
+  UploadedFiles,
 } from '@nestjs/common';
 import { OccurencesService } from '../services/occurences.service';
 import { CreateOccurenceDto, UpdateOccurenceDto } from '../dtos/occurrenceDTO';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('occurences')
 export class OccurencesController {
@@ -18,8 +21,12 @@ export class OccurencesController {
 
   @Post()
   @HttpCode(201)
-  async create(@Body() createOccurenceDto: CreateOccurenceDto) {
-    await this.occurencesService.create(createOccurenceDto);
+  @UseInterceptors(FileInterceptor('file'))
+  async create(
+    @Body() createOccurenceDto: CreateOccurenceDto,
+    @UploadedFiles() files: Express.Multer.File[],
+  ) {
+    await this.occurencesService.create({ ...createOccurenceDto, files });
 
     return {
       statusCode: 201,
