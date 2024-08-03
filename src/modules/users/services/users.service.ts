@@ -1,5 +1,5 @@
 import { PrismaService } from '@modules/prisma/infra/database/prisma.service';
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from '../dtos/userDTO';
 import { UsersRepository } from '../repositories/implementations/prisma-users-repository';
 import { IUsersRepository } from '../repositories/IUsers-repository';
@@ -35,8 +35,8 @@ export class UsersService {
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const userExist = await this.usersRepository.findById(id)
 
-    if(userExist)
-      throw new ConflictException('usuário já existente');
+    if(!userExist)
+      throw new NotFoundException('Usuário não existe');
 
     const user = await this.usersRepository.update(id, updateUserDto)
     return user;
@@ -44,8 +44,8 @@ export class UsersService {
 
   async remove(id: string): Promise<void> {
     const userExist = await this.usersRepository.findById(id)
-    if(userExist)
-      throw new ConflictException('usuário já existente');
+    if(!userExist)
+      throw new NotFoundException('usuário já existente');
     await this.usersRepository.deleteById(id)
   }
 }
