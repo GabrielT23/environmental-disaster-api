@@ -5,6 +5,7 @@ import { configuration } from './infra/config/configuration';
 import { MulterModule } from '@nestjs/platform-express';
 import { StorageProvider } from './data/storage';
 import { FileService } from './infra/services/file.service';
+import { MailService } from './infra/services/mail.service';
 
 @Global()
 @Module({
@@ -17,7 +18,7 @@ import { FileService } from './infra/services/file.service';
       dest: '../../tmp',
     }),
   ],
-  providers: [PrismaService, StorageProvider, FileService],
-  exports: [PrismaService, StorageProvider, FileService],
+  providers: [PrismaService, StorageProvider, FileService, MailService],
+  exports: [PrismaService, StorageProvider, FileService, MailService],
 })
 export class CoreModule {}
