@@ -7,12 +7,16 @@ import { CreateUserDto, UpdateUserDto } from '../dtos/userDTO';
 import { IUsersRepository } from '../repositories/IUsers-repository';
 import { hash } from 'bcryptjs';
 import { User } from '@prisma/client';
+import { IAddressesRepository } from '@modules/addresses/repositories/IAdressesRepository';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: IUsersRepository) {}
+  constructor(
+    private readonly usersRepository: IUsersRepository,
+    private readonly adressesRepository: IAddressesRepository,
+  ) {}
 
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto): Promise<Omit<CreateUserDto, 'password'>> {
     const userExist = await this.usersRepository.findByEmailORCpf(
       createUserDto.email,
       createUserDto.cpf,
@@ -20,8 +24,10 @@ export class UsersService {
     if (userExist) throw new ConflictException('usuário já existente');
     const passwordHash = await hash(createUserDto.password, 8);
     createUserDto.password = passwordHash;
-    const user = await this.usersRepository.create(createUserDto);
-    return user;
+    let {address, ...createUserDtoRest} = createUserDto;
+    let {password, ...user} = await this.usersRepository.create(createUserDtoRest);
+    address.userId = user.id;
+    return {...user, address};
   }
 
   async findAll(): Promise<User[]> {
@@ -29,12 +35,12 @@ export class UsersService {
     return users;
   }
 
-  async findOne(id: string): Promise<User> {
-    const user = await this.usersRepository.findById(id);
+  async findOne(id: string): Promise<Omit<User, "password">> {
+    const {password, ...user} = await this.usersRepository.findById(id);
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<Omit<User, "password">> {
     const userExist = await this.usersRepository.findById(id);
     let passwordHash = null;
     if (updateUserDto.password) {
@@ -43,7 +49,10 @@ export class UsersService {
     if (passwordHash) updateUserDto.password = passwordHash;
     if (!userExist) throw new NotFoundException('Usuário não existe');
 
-    const user = await this.usersRepository.update(id, updateUserDto);
+    if(updateUserDto.password) userExist.password = updateUserDto.password;
+    if(updateUserDto.name) userExist.name = updateUserDto.name;
+
+    const {password, ...user} = await this.usersRepository.update(id, userExist);
     return user;
   }
 

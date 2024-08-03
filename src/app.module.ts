@@ -5,6 +5,7 @@ import { OccurencesModule } from '@modules/occurences/occurences.module';
 import { CoreModule } from '@core/core.module';
 import { AuthModule } from '@modules/auth/auth.module';
 import { CampaignsModule } from '@modules/campaigns/campaigns.module';
+import { AddressesModule } from '@modules/addresses/address.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CampaignsModule } from '@modules/campaigns/campaigns.module';
     OccurencesModule,
     AuthModule,
     CampaignsModule,
+    AddressesModule
   ],
 })
 export class AppModule {}
