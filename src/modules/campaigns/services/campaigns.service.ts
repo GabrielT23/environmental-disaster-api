@@ -17,13 +17,6 @@ export class CampaignsService {
   }
 
   async findAll(): Promise<Campaign[]> {
-    const teste = await this.emailService.sendAlertEmail(
-      'jhonatas30souza@gmail.com',
-      'Jhonatas',
-    );
-
-    console.log(teste);
-
     const campaigns = await this.campaignsRepository.findAll();
     return campaigns;
   }
