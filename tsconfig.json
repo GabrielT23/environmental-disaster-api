@@ -8,8 +8,12 @@
     "allowSyntheticDefaultImports": true,
     "target": "ES2021",
     "paths": {
-      "@modules/*": ["./src/modules/*"],
-      "@config/*": ["./src/config/*"],
+      "@modules/*": [
+        "./src/modules/*"
+      ],
+      "@core/*": [
+        "./src/core/*"
+      ],
     },
     "sourceMap": true,
     "outDir": "./dist",

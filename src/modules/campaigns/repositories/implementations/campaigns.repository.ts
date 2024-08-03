@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { ICampaignsRepository } from '../campaigns-repository.abstract';
-import { PrismaService } from '@modules/prisma/infra/database/prisma.service';
 import {
   CreateCampaignDto,
   UpdateCampaignDto,
 } from '@modules/campaigns/dtos/campaignsDTO';
 import { Campaign } from '@prisma/client';
+import { PrismaService } from '@core/data/prisma/prisma.service';
 
 @Injectable()
 export class CampaignsRepository implements ICampaignsRepository {

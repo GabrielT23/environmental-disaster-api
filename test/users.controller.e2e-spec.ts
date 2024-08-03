@@ -1,9 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { PrismaService } from '@modules/prisma/infra/database/prisma.service';
 import { AppModule } from '../src/app.module';
-
+import { PrismaService } from '@core/data/prisma/prisma.service';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
@@ -104,9 +103,7 @@ describe('UsersController (e2e)', () => {
       },
     });
 
-    await request(app.getHttpServer())
-      .delete(`/users/${user.id}`)
-      .expect(200);
+    await request(app.getHttpServer()).delete(`/users/${user.id}`).expect(200);
 
     const deletedUser = await prismaService.user.findUnique({
       where: { id: user.id },
@@ -114,6 +111,4 @@ describe('UsersController (e2e)', () => {
 
     expect(deletedUser).toBeNull();
   });
-
 });
-
