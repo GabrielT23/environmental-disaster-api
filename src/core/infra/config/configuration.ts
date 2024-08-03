@@ -1,6 +1,8 @@
 import { Logger } from '@nestjs/common';
 import { z as zod } from 'zod';
+import { config } from 'dotenv';
 
+config();
 export interface Config {
   port: number;
   databaseUrl: string;
@@ -29,6 +31,7 @@ export const configuration = (): Config => {
   });
 
   const envData = envSchema.safeParse(process.env);
+
   if (!envData.success) {
     logger.error('Variáveis de ambiente inválidas');
     logger.error(envData.error);
