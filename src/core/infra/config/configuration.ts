@@ -4,7 +4,7 @@ import { z as zod } from 'zod';
 
 config();
 export interface Config {
-  nodeEnv: 'development' | 'production';
+  nodeEnv: 'development' | 'production' | 'test';
   port: number;
   databaseUrl: string;
   hashSecret: string;
@@ -30,7 +30,7 @@ export const configuration = (): Config => {
   const logger = new Logger();
 
   const envSchema = zod.object({
-    NODE_ENV: zod.enum(['development', 'production']),
+    NODE_ENV: zod.enum(['development', 'production', 'test']),
     DATABASE_URL: zod.string().min(1),
     APP_URL: zod.string().url().min(1),
     PORT: zod.string().min(1).regex(/^\d+$/).default('3000').transform(Number),

@@ -48,7 +48,7 @@ model Address {
   country   String
   zipCode   String
   userId    String
-  user      User   @relation(fields: [userId], references: [id])
+  user      User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 enum CategoryStatus {

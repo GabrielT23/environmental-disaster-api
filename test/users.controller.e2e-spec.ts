@@ -7,6 +7,7 @@ import { PrismaService } from '@core/data/prisma/prisma.service';
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
   let prismaService: PrismaService;
+  let authToken: string;
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -18,6 +19,34 @@ describe('UsersController (e2e)', () => {
 
     prismaService = moduleFixture.get(PrismaService);
     await prismaService.user.deleteMany();
+
+    // Create and authenticate a user
+    const createUserDto = {
+      name: 'Admin User',
+      email: 'admin@example.com',
+      password: 'admin1234',
+      role: 'admin',
+      cpf: '00000000000',
+      address: {
+        street: 'Admin Street',
+        city: 'Admin City',
+        state: 'Admin State',
+        country: 'Admin Country',
+        zipCode: '00000-000',
+      },
+    };
+
+    await request(app.getHttpServer())
+      .post('/users')
+      .send(createUserDto)
+      .expect(201);
+
+    const loginResponse = await request(app.getHttpServer())
+      .post('/auth/login')
+      .send({ email: createUserDto.email, password: createUserDto.password })
+      .expect(201);
+
+    authToken = loginResponse.body.access_token;
   });
 
   afterAll(async () => {
@@ -27,15 +56,23 @@ describe('UsersController (e2e)', () => {
 
   it('/users (POST)', async () => {
     const createUserDto = {
-      name: 'Test User',
-      email: 'test@example.com',
-      password: 'password123',
-      role: 'client',
-      cpf: '12345678900',
+      "name": "John Doe",
+      "email": "teste@gmail.com",
+      "password": "123456",
+      "role": "admin",
+      "cpf": "12345678901",
+      "address": {
+        "street": "teste",
+        "city": "Springfield",
+        "state": "IL",
+        "country": "USA",
+        "zipCode": "62704",
+      }
     };
 
     const response = await request(app.getHttpServer())
       .post('/users')
+      .set('Authorization', `Bearer ${authToken}`)
       .send(createUserDto)
       .expect(201);
 
@@ -46,6 +83,7 @@ describe('UsersController (e2e)', () => {
   it('/users (GET)', async () => {
     const response = await request(app.getHttpServer())
       .get('/users')
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200);
 
     expect(response.body).toBeInstanceOf(Array);
@@ -58,12 +96,13 @@ describe('UsersController (e2e)', () => {
         email: 'test1@example.com',
         password: 'password1234',
         role: 'client',
-        cpf: '12345678901',
+        cpf: '12345678906',
       },
     });
 
     const response = await request(app.getHttpServer())
       .get(`/users/${user.id}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .expect(200);
 
     expect(response.body).toHaveProperty('id', user.id);
@@ -86,6 +125,7 @@ describe('UsersController (e2e)', () => {
 
     const response = await request(app.getHttpServer())
       .patch(`/users/${user.id}`)
+      .set('Authorization', `Bearer ${authToken}`)
       .send(updateUserDto)
       .expect(200);
 
@@ -103,7 +143,7 @@ describe('UsersController (e2e)', () => {
       },
     });
 
-    await request(app.getHttpServer()).delete(`/users/${user.id}`).expect(200);
+    await request(app.getHttpServer()).delete(`/users/${user.id}`).set('Authorization', `Bearer ${authToken}`).expect(200);
 
     const deletedUser = await prismaService.user.findUnique({
       where: { id: user.id },

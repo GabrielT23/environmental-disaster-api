@@ -6,6 +6,7 @@ import { compare } from 'bcryptjs';
 import { PayLoadData } from '../dtos/authDTO';
 import { configuration } from '@core/infra/config/configuration';
 
+
 const config = configuration();
 
 interface CheckRoleOptions {
