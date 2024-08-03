@@ -7,9 +7,14 @@ import {
   Patch,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto, UpdateUserDto } from '../dtos/userDTO';
 import { UsersService } from '../services/users.service';
+import { RoleUSer } from '@modules/auth/role.decorator';
+import { AuthGuard } from '@modules/auth/providers/auth.guard';
+
+
 
 @Controller('/users')
 export class UsersController {
@@ -21,6 +26,8 @@ export class UsersController {
     return user;
   }
 
+  @UseGuards(AuthGuard)
+  @RoleUSer('client')
   @Get()
   async findAll() {
     return this.usersService.findAll();

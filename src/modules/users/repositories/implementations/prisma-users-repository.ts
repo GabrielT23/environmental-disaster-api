@@ -11,6 +11,7 @@ export class UsersRepository implements IUsersRepository {
     const newUser = await this.prisma.user.create({ data: user });
     return newUser;
   }
+  
   async update(id: string, user: Partial<User>): Promise<User> {
     const userUpdate = await this.prisma.user.update({
       where: { id },
@@ -29,7 +30,11 @@ export class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  async findByEmailORCpf(email: string, cpf: string): Promise<User | null> {
+  async findByEmailORCpf(
+    email: string,
+    cpfUser?: string,
+  ): Promise<User | null> {
+    const cpf = cpfUser || '';
     const user = await this.prisma.user.findFirst({
       where: {
         OR: [{ email }, { cpf }],

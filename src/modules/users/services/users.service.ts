@@ -18,7 +18,6 @@ export class UsersService {
       createUserDto.cpf,
     );
     if (userExist) throw new ConflictException('usuário já existente');
-
     const passwordHash = await hash(createUserDto.password, 8);
     createUserDto.password = passwordHash;
     const user = await this.usersRepository.create(createUserDto);
@@ -37,7 +36,11 @@ export class UsersService {
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const userExist = await this.usersRepository.findById(id);
-
+    let passwordHash = null;
+    if (updateUserDto.password) {
+      passwordHash = await hash(updateUserDto.password, 8);
+    }
+    if (passwordHash) updateUserDto.password = passwordHash;
     if (!userExist) throw new NotFoundException('Usuário não existe');
 
     const user = await this.usersRepository.update(id, updateUserDto);
