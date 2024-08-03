@@ -17,8 +17,8 @@ export class CampaignsController {
 
   @Post()
   async create(@Body() createCampaignDto: CreateCampaignDto) {
-    const campaign = await this.campaignsService.create(createCampaignDto);
-    return campaign;
+    await this.campaignsService.create(createCampaignDto);
+    return { statusCode: 201, message: 'Campanha criada com sucesso' };
   }
 
   @Get()
@@ -36,11 +36,13 @@ export class CampaignsController {
     @Param('id') id: string,
     @Body() updateCampaignDto: UpdateCampaignDto,
   ) {
-    return this.campaignsService.update(id, updateCampaignDto);
+    await this.campaignsService.update(id, updateCampaignDto);
+    return { statusCode: 200, message: 'Campanha atualizada com sucesso' };
   }
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    return this.campaignsService.remove(id);
+    await this.campaignsService.remove(id);
+    return { statusCode: 200, message: 'Campanha deletada com sucesso' };
   }
 }

@@ -5,7 +5,9 @@ import {
   IsString,
   IsNumber,
   IsDate,
+  IsEnum,
 } from 'class-validator';
+import { CampaignStatus } from '@prisma/client';
 
 export class CreateCampaignDto {
   @IsNotEmpty({ message: 'Nome da campanha é obrigatório' })
@@ -35,8 +37,23 @@ export class CreateCampaignDto {
   endDate: Date;
 
   @IsNotEmpty({ message: 'Status da campanha é obrigatório' })
-  @IsString({ message: 'Status da campanha deve ser uma string' })
-  status: string;
+  @IsEnum(CampaignStatus, {
+    message:
+      'Status da campanha deve ser um dos seguintes valores: active, completed, pending, cancelled.',
+  })
+  status: CampaignStatus;
+
+  @IsNotEmpty({ message: 'Latitude é obrigatória' })
+  @IsNumber({}, { message: 'Latitude deve ser um número' })
+  latitude: number;
+
+  @IsNotEmpty({ message: 'Longitude é obrigatória' })
+  @IsNumber({}, { message: 'Longitude deve ser um número' })
+  longitude: number;
+
+  @IsNotEmpty({ message: 'QR Code é obrigatório' })
+  @IsString({ message: 'QR Code deve ser uma string' })
+  qrCode: string;
 }
 
 export class UpdateCampaignDto {
@@ -67,6 +84,21 @@ export class UpdateCampaignDto {
   endDate?: Date;
 
   @IsOptional()
-  @IsString({ message: 'Status da campanha deve ser uma string' })
-  status?: string;
+  @IsEnum(CampaignStatus, {
+    message:
+      'Status da campanha deve ser um dos seguintes valores: active, completed, pending, cancelled.',
+  })
+  status?: CampaignStatus;
+
+  @IsOptional()
+  @IsNumber({}, { message: 'Latitude deve ser um número' })
+  latitude?: number;
+
+  @IsOptional()
+  @IsNumber({}, { message: 'Longitude deve ser um número' })
+  longitude?: number;
+
+  @IsOptional()
+  @IsString({ message: 'QR Code deve ser uma string' })
+  qrCode?: string;
 }
