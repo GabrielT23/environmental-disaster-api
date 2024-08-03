@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@modules/prisma/infra/database/prisma.service';
 import { Address } from '@prisma/client';
 import { IAddressesRepository } from '../IAdressesRepository';
 import { CreateAddressDto } from '@modules/addresses/dtos/adressesDTO';
+import { PrismaService } from '@core/data/prisma/prisma.service';
 @Injectable()
-
 export class AdressesRepository implements IAddressesRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async findById(id: string): Promise<Address | null> {
-        const address = await this.prisma.address.findUnique({ where: { id } })
-        return address
-    }
+    const address = await this.prisma.address.findUnique({ where: { id } });
+    return address;
+  }
 
   async create(adress: CreateAddressDto): Promise<Address> {
     const newAdress = await this.prisma.address.create({ data: adress });
