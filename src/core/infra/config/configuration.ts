@@ -15,6 +15,8 @@ export interface Config {
     storageBucketName: string;
     storageKey: string;
   };
+  gmailUser: string;
+  gmailPassword: string;
 }
 
 export const configuration = (): Config => {
@@ -30,6 +32,9 @@ export const configuration = (): Config => {
     GOOGLE_CLOUD_STORAGE_BUCKET_NAME: zod.string().min(1),
     GOOGLE_CLOUD_STORAGE_KEY: zod.string().min(1),
     STORAGE_DRIVER: zod.enum(['disk', 'google-cloud']).default('disk'),
+
+    GMAIL_USER: zod.string().email().min(1),
+    GMAIL_PASSWORD: zod.string().min(1),
   });
 
   const envData = envSchema.safeParse(process.env);
@@ -54,5 +59,7 @@ export const configuration = (): Config => {
       storageKey: data.GOOGLE_CLOUD_STORAGE_KEY,
     },
     storageDriver: data.STORAGE_DRIVER,
+    gmailUser: data.GMAIL_USER,
+    gmailPassword: data.GMAIL_PASSWORD,
   };
 };
