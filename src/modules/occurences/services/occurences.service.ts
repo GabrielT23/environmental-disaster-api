@@ -34,11 +34,46 @@ export class OccurencesService {
   }
 
   async findAll() {
-    return await this.occurrencesRepository.findAll();
+    const occurrences = await this.occurrencesRepository.findAll();
+    const parsedOccurrences = await Promise.all(
+      occurrences.map(async (occurrence) => {
+        const parsedFiles = await Promise.all(
+          occurrence.files.map(async (file) => {
+            const filePath = await this.storage.getFileUrl(file);
+            return {
+              filename: file,
+              filePath,
+            };
+          }),
+        );
+
+        return {
+          ...occurrence,
+          files: parsedFiles,
+        };
+      }),
+    );
+
+    return parsedOccurrences;
   }
 
   async findOne(id: string) {
-    return await this.occurrencesRepository.findById(id);
+    const occurrence = await this.occurrencesRepository.findById(id);
+
+    const parsedFiles = await Promise.all(
+      occurrence.files.map(async (file) => {
+        const filePath = await this.storage.getFileUrl(file);
+        return {
+          filename: file,
+          filePath,
+        };
+      }),
+    );
+
+    return {
+      ...occurrence,
+      files: parsedFiles,
+    };
   }
 
   async update(id: string, data: UpdateOccurenceDto) {
