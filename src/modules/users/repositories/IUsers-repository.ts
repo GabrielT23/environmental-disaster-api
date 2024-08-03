@@ -6,6 +6,6 @@ export abstract class IUsersRepository {
   abstract update(id: string, user: Partial<User>): Promise<User>;
   abstract findAll(): Promise<User[]>;
   abstract findById(id: string): Promise<User | null>;
-  abstract findByEmailORCpf(email: string, cpf: string): Promise<User | null>;
+  abstract findByEmailORCpf(email: string, cpf?: string): Promise<User | null>;
   abstract deleteById(id: string): Promise<void>;
 }

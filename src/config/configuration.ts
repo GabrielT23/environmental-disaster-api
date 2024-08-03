@@ -11,6 +11,7 @@ export const configuration = (): Config => {
   const envSchema = zod.object({
     DATABASE_URL: zod.string().min(1),
     PORT: zod.string().min(1).regex(/^\d+$/).default('3000').transform(Number),
+    JWT_SECRET: zod.string().min(1),
   });
 
   const isValidEnv = envSchema.safeParse(process.env).success;
