@@ -1,14 +1,6 @@
 import { CategoryStatus } from '@prisma/client';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
-export class Category {
-  id: string;
-  name: string;
-  status: CategoryStatus;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
 export class CreateCategoryDto {
   @IsNotEmpty({ message: 'Nome da categoria é obrigatório' })
   @IsString({ message: 'Nome da categoria deve ser uma string' })
