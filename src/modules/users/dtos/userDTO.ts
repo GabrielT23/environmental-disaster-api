@@ -1,6 +1,8 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { IsString, IsEmail, IsEnum, IsNotEmpty } from 'class-validator';
+import { OmitType, PartialType } from '@nestjs/mapped-types';
+import { IsString, IsEmail, IsEnum, IsNotEmpty, isObject, ValidateNested } from 'class-validator';
 import { Role } from '@prisma/client';
+import { CreateAddressDto } from '@modules/addresses/dtos/adressesDTO';
+import { Type } from 'class-transformer';
 
 export class CreateUserDto {
   @IsString({ message: 'Nome inválido' })
@@ -22,6 +24,11 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty({ message: 'Cpf é obrigatório' })
   cpf: string;
+
+  @ValidateNested()
+  @Type(() => OmitType(CreateAddressDto, ['userId']))
+  @IsNotEmpty({ message: 'Endereço é obrigatório' })
+  address: CreateAddressDto;
 }
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {}
