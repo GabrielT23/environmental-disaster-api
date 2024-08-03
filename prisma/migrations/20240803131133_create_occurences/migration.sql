@@ -8,6 +8,8 @@ CREATE TABLE "occurrences" (
     "description" TEXT NOT NULL,
     "status" "OccurrenceStatus" NOT NULL DEFAULT 'pending',
     "files" TEXT[],
+    "latitude" DECIMAL(65,30) NOT NULL,
+    "longitude" DECIMAL(65,30) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "userId" TEXT NOT NULL,
