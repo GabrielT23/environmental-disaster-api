@@ -1,4 +1,5 @@
 import { OccurrenceStatus } from '@prisma/client';
+import { Type } from 'class-transformer';
 import {
   IsArray,
   IsEnum,
@@ -18,17 +19,19 @@ export class CreateOccurenceDto {
   @IsString({ message: 'Descrição inválida' })
   description: string;
 
+  @IsNotEmpty({ message: 'cep da ocorrência é o obrigatório' })
+  @IsString({ message: 'cep inválido' })
+  zipCode: string
+
   @IsNotEmpty({ message: 'Latitude é obrigatória' })
+  @Type(() => Number)
   @IsNumber()
   latitude: number;
 
   @IsNotEmpty({ message: 'Longitude é obrigatória' })
+  @Type(() => Number)
   @IsNumber()
   longitude: number;
-
-  @IsNotEmpty({ message: 'ID do usuário é obrigatório' })
-  @IsUUID('4')
-  userId: string;
 
   @IsNotEmpty({ message: 'ID do usuário é obrigatório' })
   @IsUUID('4')
@@ -50,10 +53,7 @@ export class UpdateOccurenceDto {
   @IsOptional()
   @IsEnum(OccurrenceStatus)
   status: OccurrenceStatus;
-
-  @IsNotEmpty()
-  @IsUUID('4')
-  userId: string;
+  
 }
 
 export class CreateOccurenceRepositoryInput {
@@ -65,6 +65,10 @@ export class CreateOccurenceRepositoryInput {
   @IsString({ message: 'Descrição inválida' })
   description: string;
 
+  @IsNotEmpty({ message: 'cep da ocorrência é o obrigatório' })
+  @IsString({ message: 'cep inválido' })
+  zipCode: string
+  
   @IsNotEmpty({ message: 'Latitude é obrigatória' })
   @IsNumber()
   latitude: number;

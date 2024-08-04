@@ -2,33 +2,46 @@ import { Storage } from '@core/data/storage';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOccurenceDto, UpdateOccurenceDto } from '../dtos/occurrenceDTO';
 import { IOccurrencesRepository } from '../repositories/occurences-repository.abstract';
+import { IUsersRepository } from '@modules/users/repositories/IUsers-repository';
+import { EmailService } from '@core/infra/services/email.service';
 
 @Injectable()
 export class OccurencesService {
   constructor(
     private readonly occurrencesRepository: IOccurrencesRepository,
     private readonly storage: Storage,
+    private readonly usersRepository: IUsersRepository,
+    private readonly emailService: EmailService
   ) {}
 
-  async create(data: CreateOccurenceDto) {
+  async create(userId: string, data: CreateOccurenceDto) {
     const { files } = data;
     let fileNames: string[] = [];
-    if (files.length > 0) {
+    if (files?.length > 0) {
       const filesOptions = await Promise.all(
-        files.map(async (file) => {
+        files?.map(async (file) => {
           return await this.storage.uploadFile(file.filename, {
-            folderName: data.userId,
+            folderName: userId,
           });
         }),
       );
 
-      fileNames = filesOptions.map((file) => file.fileName);
+      fileNames = filesOptions.map((file) => file?.fileName);
     }
-
+    data.latitude = Number(data.latitude);
+    data.longitude = Number(data.longitude);
     const newOccurence = await this.occurrencesRepository.create({
-      ...data,
+      ...data, userId,
       files: fileNames,
     });
+
+    const user = await this.usersRepository.findById(userId)
+    if(user.role === 'admin'){
+      const usersAlert = await this.usersRepository.findByCepAdress(newOccurence.zipCode)
+      usersAlert.map(async (userAlert) => {
+        await this.emailService.sendAlertEmail(userAlert.email, userAlert.name)
+      })
+    }
 
     return newOccurence;
   }

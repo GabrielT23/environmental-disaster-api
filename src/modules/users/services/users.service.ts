@@ -27,6 +27,7 @@ export class UsersService {
     let {address, ...createUserDtoRest} = createUserDto;
     let {password, ...user} = await this.usersRepository.create(createUserDtoRest);
     address.userId = user.id;
+    await this.adressesRepository.create(address)
     return {...user, address};
   }
 

@@ -79,6 +79,7 @@ model Occurrence {
   description String
   status      OccurrenceStatus @default(pending)
   files       String[]
+  zipCode     String
   latitude    Float
   longitude   Float
   createdAt   DateTime         @default(now())

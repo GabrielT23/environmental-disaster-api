@@ -25,7 +25,7 @@ export class MailerConfigService implements MailerOptionsFactory {
       },
       preview: !isProductionEnv,
       template: {
-        dir: resolve(join(__dirname, '..', '..', '..', '..', 'templates')),
+        dir: resolve(join(__dirname, '..', '..', '..', '..','..',  'templates')),
         adapter: new HandlebarsAdapter(undefined, {
           inlineCssEnabled: true,
         }),

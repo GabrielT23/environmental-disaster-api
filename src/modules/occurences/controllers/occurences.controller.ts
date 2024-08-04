@@ -10,23 +10,39 @@ import {
   HttpCode,
   UseInterceptors,
   UploadedFiles,
+  UseGuards,
+  Req,
 } from '@nestjs/common';
 import { OccurencesService } from '../services/occurences.service';
 import { CreateOccurenceDto, UpdateOccurenceDto } from '../dtos/occurrenceDTO';
 import { FileInterceptor } from '@nestjs/platform-express';
 
+import { RoleUser } from '@modules/auth/role.decorator';
+import { AuthGuard } from '@modules/auth/providers/auth.guard';
+import { Request } from 'express';
+
+
+interface User {
+  id: string;
+  email: string;
+  roleName: 'admin' | 'client';
+}
 @Controller('occurences')
 export class OccurencesController {
   constructor(private readonly occurencesService: OccurencesService) {}
 
   @Post()
   @HttpCode(201)
+  @UseGuards(AuthGuard)
+  @RoleUser('client')
   @UseInterceptors(FileInterceptor('file'))
   async create(
+    @Req() req: Request,
     @Body() createOccurenceDto: CreateOccurenceDto,
     @UploadedFiles() files: Express.Multer.File[],
   ) {
-    await this.occurencesService.create({ ...createOccurenceDto, files });
+    const {id} = req.user as User;
+    await this.occurencesService.create(id, { ...createOccurenceDto, files });
 
     return {
       statusCode: 201,
@@ -34,7 +50,10 @@ export class OccurencesController {
     };
   }
 
+  
   @Patch(':id')
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
     @Body() updateOccurenceDto: UpdateOccurenceDto,
@@ -48,16 +67,22 @@ export class OccurencesController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
   async findAll() {
     return await this.occurencesService.findAll();
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
   async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return await this.occurencesService.findOne(id);
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
   async remove(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.occurencesService.remove(id);
 

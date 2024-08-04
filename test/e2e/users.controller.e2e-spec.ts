@@ -1,8 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+
 import { PrismaService } from '@core/data/prisma/prisma.service';
+import { AppModule } from '../../src/app.module';
 
 describe('UsersController (e2e)', () => {
   let app: INestApplication;
@@ -20,7 +21,6 @@ describe('UsersController (e2e)', () => {
     prismaService = moduleFixture.get(PrismaService);
     await prismaService.user.deleteMany();
 
-    // Create and authenticate a user
     const createUserDto = {
       name: 'Admin User',
       email: 'admin@example.com',
