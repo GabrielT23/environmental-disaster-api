@@ -1,5 +1,5 @@
 import { OmitType, PartialType } from '@nestjs/mapped-types';
-import { IsString, IsEmail, IsEnum, IsNotEmpty, isObject, ValidateNested } from 'class-validator';
+import { IsString, IsEmail, IsEnum, IsNotEmpty, isObject, ValidateNested, IsOptional } from 'class-validator';
 import { Role } from '@prisma/client';
 import { CreateAddressDto } from '@modules/addresses/dtos/adressesDTO';
 import { Type } from 'class-transformer';
@@ -18,7 +18,7 @@ export class CreateUserDto {
   password: string;
 
   @IsEnum(Role)
-  @IsNotEmpty({ message: 'Role é obrigatória' })
+  @IsOptional()
   role: Role;
 
   @IsString()
