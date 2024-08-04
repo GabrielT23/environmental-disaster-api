@@ -70,6 +70,20 @@ maneira possível com essas situações.
    ```bash
      npm run start:dev
 
+### Estrutura de Pastas
+
+    ```plaintext
+    ./src
+    ├── @dts
+    ├── core
+    └── modules
+        └── <modulo>
+            ├── controller
+            ├── services
+            ├── dtos
+            |__ repositories
+
+
 ### **Testes**
   A aplicação também conta com a implementação de testes de integração utilizando a biblioteca Jest.
   * para rodar os testes utilize o comando:
