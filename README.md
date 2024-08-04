@@ -1,6 +1,9 @@
 # **API de Prevenção de Desastres Naturais**
 
 Uma API baseada em NestJS para gerenciar e notificar usuários sobre desastres naturais.
+Esse projeto parte de um projeto que tem como proposta, auxiliar o estado e os moradores da
+cidade a se previnirem contra desastres naturias, assim como auxiliar em como lidar da melhor
+maneira possível com essas situações.
 
 ![image](https://github.com/user-attachments/assets/d5647454-8da8-4084-bd94-b5585e17bef0)
 
@@ -16,10 +19,13 @@ Uma API baseada em NestJS para gerenciar e notificar usuários sobre desastres n
 ### **Funcionalidades**
 
 * Criação de ocorrencias de desastres pelo administrador e os usuários da plataforma.
-* Notificações por e-mail para usuários próximos às áreas afetadas.
 * Autenticação de usuários (administrador e cliente).
 * Gerenciamento de categorias de desastres.
 * Criação de campanhas de doações para ajudar em desastres.
+* Notificações por e-mail para usuários próximos às áreas afetadas.
+  
+  ![image](https://github.com/user-attachments/assets/d298eb29-adff-425f-8b8b-c1266c42263c)
+
 
 ### **Começando**
 
