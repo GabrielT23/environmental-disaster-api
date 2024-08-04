@@ -20,7 +20,6 @@ describe('UsersController (e2e)', () => {
     prismaService = moduleFixture.get(PrismaService);
     await prismaService.user.deleteMany();
 
-    // Create and authenticate a user
     const createUserDto = {
       name: 'Admin User',
       email: 'admin@example.com',
