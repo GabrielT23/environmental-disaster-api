@@ -12,6 +12,7 @@ export class OccurrencesRepository implements IOccurrencesRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateOccurenceRepositoryInput): Promise<Occurrence> {
+    
     const newOccurrence = await this.prisma.occurrence.create({
       data,
     });

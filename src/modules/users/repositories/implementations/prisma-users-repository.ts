@@ -6,6 +6,21 @@ import { PrismaService } from '@core/data/prisma/prisma.service';
 @Injectable()
 export class UsersRepository implements IUsersRepository {
   constructor(private readonly prisma: PrismaService) {}
+  async findByCepAdress(cep: string): Promise<User[]> {
+    const usersWithSpecificZipCode = await this.prisma.user.findMany({
+      where: {
+        addresses: {
+          some: {
+            zipCode: cep,
+          },
+        },
+      },
+      include: {
+        addresses: true, 
+      },
+    });
+    return usersWithSpecificZipCode
+  }
 
   async create(user: CreateUserDto): Promise<User> {
     const newUser = await this.prisma.user.create({ data: user });
