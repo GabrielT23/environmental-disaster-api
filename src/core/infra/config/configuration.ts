@@ -9,6 +9,7 @@ export interface Config {
   databaseUrl: string;
   hashSecret: string;
   appUrl: string;
+  frontEndUrl: string;
   storageDriver: 'google-cloud' | 'disk';
   jwtSecret: string;
   googleCloud: {
@@ -33,6 +34,7 @@ export const configuration = (): Config => {
     NODE_ENV: zod.enum(['development', 'production', 'test']),
     DATABASE_URL: zod.string().min(1),
     APP_URL: zod.string().url().min(1),
+    FRONTEND_URL: zod.string().url().min(1),
     PORT: zod.string().min(1).regex(/^\d+$/).default('3000').transform(Number),
     JWT_SECRET: zod.string().min(1),
 
@@ -63,6 +65,7 @@ export const configuration = (): Config => {
     nodeEnv: data.NODE_ENV,
     port: data.PORT,
     appUrl: data.APP_URL,
+    frontEndUrl: data.FRONTEND_URL,
     databaseUrl: data.DATABASE_URL,
     hashSecret: String(process.env.HASH_SECRET),
     jwtSecret: data.JWT_SECRET,
