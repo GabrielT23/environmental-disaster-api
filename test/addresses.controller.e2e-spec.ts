@@ -5,15 +5,6 @@ import { AppModule } from '../src/app.module';
 import { PrismaService } from '@core/data/prisma/prisma.service';
 import { Role } from '@prisma/client';
 
-
-interface UserResponse {
-    name: string;
-    email: string;
-    password: string;
-    role: Role;
-    cpf: string;
-  }
-
 describe('AddressesController (e2e)', () => {
   let app: INestApplication;
   let prismaService: PrismaService;

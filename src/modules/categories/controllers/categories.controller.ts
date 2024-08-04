@@ -8,9 +8,12 @@ import {
   ParseUUIDPipe,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { CategoriesService } from '../services/categories.service';
 import { CreateCategoryDto, UpdateCategoryDto } from '../dtos/categoriesDTO';
+import { AuthGuard } from '@modules/auth/providers/auth.guard';
+import { RoleUser } from '@modules/auth/role.decorator';
 
 @Controller('/categories')
 export class CategoriesController {
@@ -18,6 +21,8 @@ export class CategoriesController {
 
   @Post()
   @HttpCode(201)
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
   async create(@Body() createCategoryData: CreateCategoryDto) {
     await this.categoriesService.create(createCategoryData);
     return {
@@ -26,16 +31,22 @@ export class CategoriesController {
     };
   }
 
+  @UseGuards(AuthGuard)
+  @RoleUser('client')
   @Get()
   async findAll() {
     return this.categoriesService.findAll();
   }
 
+  @UseGuards(AuthGuard)
+  @RoleUser('client')
   @Get(':id')
   async findById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.categoriesService.findById(id);
   }
 
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
   @Patch(':id')
   async update(
     @Param('id', new ParseUUIDPipe()) id: string,
@@ -48,6 +59,8 @@ export class CategoriesController {
     };
   }
 
+  @UseGuards(AuthGuard)
+  @RoleUser('admin')
   @Delete(':id')
   async delete(@Param('id', new ParseUUIDPipe()) id: string) {
     await this.categoriesService.delete(id);
