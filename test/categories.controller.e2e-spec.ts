@@ -22,11 +22,11 @@ describe('CategoriesController (e2e)', () => {
     await prismaService.category.deleteMany();
 
     const createUserDto = {
-        name: 'Admin User',
-        email: 'admin@example.com',
+        name: 'Admin categories',
+        email: 'admincategories@example.com',
         password: 'admin1234',
         role: 'admin',
-        cpf: '00000000000',
+        cpf: '7777777777',
         address: {
           street: 'Admin Street',
           city: 'Admin City',
