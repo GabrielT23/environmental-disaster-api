@@ -35,10 +35,6 @@ export class CreateOccurenceDto {
 
   @IsNotEmpty({ message: 'ID do usuário é obrigatório' })
   @IsUUID('4')
-  userId: string;
-
-  @IsNotEmpty({ message: 'ID do usuário é obrigatório' })
-  @IsUUID('4')
   categoryId: string;
 
   @IsOptional()
@@ -57,10 +53,7 @@ export class UpdateOccurenceDto {
   @IsOptional()
   @IsEnum(OccurrenceStatus)
   status: OccurrenceStatus;
-
-  @IsNotEmpty()
-  @IsUUID('4')
-  userId: string;
+  
 }
 
 export class CreateOccurenceRepositoryInput {

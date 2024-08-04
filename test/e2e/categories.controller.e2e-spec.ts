@@ -1,9 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+
 import { PrismaService } from '@core/data/prisma/prisma.service';
 import { CategoryStatus } from '@prisma/client';
+import { AppModule } from '../../src/app.module';
 
 describe('CategoriesController (e2e)', () => {
   let app: INestApplication;
@@ -23,10 +24,10 @@ describe('CategoriesController (e2e)', () => {
 
     const createUserDto = {
         name: 'Admin categories',
-        email: 'admincategories@example.com',
+        email: 'admin23categories@example.com',
         password: 'admin1234',
         role: 'admin',
-        cpf: '7777777777',
+        cpf: '772342777777',
         address: {
           street: 'Admin Street',
           city: 'Admin City',
@@ -82,8 +83,8 @@ describe('CategoriesController (e2e)', () => {
   it('/categories/:id (GET)', async () => {
     const category = await prismaService.category.create({
       data: {
-        name: 'Categoria de Teste',
-        status: CategoryStatus.active,
+        name: 'Categoria de Teste1',
+        status: CategoryStatus.inactive,
       },
     });
 
@@ -98,8 +99,8 @@ describe('CategoriesController (e2e)', () => {
   it('/categories/:id (PATCH)', async () => {
     const category = await prismaService.category.create({
       data: {
-        name: 'Categoria de Teste',
-        status: CategoryStatus.active,
+        name: 'Categoria de Teste2',
+        status: CategoryStatus.pending,
       },
     });
 

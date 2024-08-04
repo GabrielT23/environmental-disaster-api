@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../src/app.module';
 import { PrismaService } from '@core/data/prisma/prisma.service';
 import { Role } from '@prisma/client';
 
@@ -20,14 +20,15 @@ describe('AddressesController (e2e)', () => {
     await app.init();
 
     prismaService = moduleFixture.get(PrismaService);
+    
     await prismaService.address.deleteMany();
 
     const createUserDto = {
         name: 'teste user',
-        email: 'teste@example.com',
-        password: '1234',
+        email: 'addresses@example.com',
+        password: '123456',
         role: 'admin',
-        cpf: '99999999999',
+        cpf: '999038299999',
         address: {
           street: 'Admin Street',
           city: 'Admin City',
@@ -43,7 +44,6 @@ describe('AddressesController (e2e)', () => {
         .send(createUserDto)
         .expect(201);
       userId = user.body.id;
-      console.log(userId)
   
       const loginResponse = await request(app.getHttpServer())
         .post('/auth/login')

@@ -14,27 +14,28 @@ export class OccurencesService {
     private readonly emailService: EmailService
   ) {}
 
-  async create(data: CreateOccurenceDto) {
+  async create(userId: string, data: CreateOccurenceDto) {
     const { files } = data;
     let fileNames: string[] = [];
     if (files?.length > 0) {
       const filesOptions = await Promise.all(
         files?.map(async (file) => {
           return await this.storage.uploadFile(file.filename, {
-            folderName: data.userId,
+            folderName: userId,
           });
         }),
       );
 
       fileNames = filesOptions.map((file) => file?.fileName);
     }
-
+    data.latitude = Number(data.latitude);
+    data.longitude = Number(data.longitude);
     const newOccurence = await this.occurrencesRepository.create({
-      ...data,
+      ...data, userId,
       files: fileNames,
     });
 
-    const user = await this.usersRepository.findById(data.userId)
+    const user = await this.usersRepository.findById(userId)
     if(user.role === 'admin'){
       const usersAlert = await this.usersRepository.findByCepAdress(newOccurence.zipCode)
       usersAlert.map(async (userAlert) => {

@@ -31,15 +31,11 @@ export class CategoriesController {
     };
   }
 
-  @UseGuards(AuthGuard)
-  @RoleUser('client')
   @Get()
   async findAll() {
     return this.categoriesService.findAll();
   }
 
-  @UseGuards(AuthGuard)
-  @RoleUser('client')
   @Get(':id')
   async findById(@Param('id', new ParseUUIDPipe()) id: string) {
     return this.categoriesService.findById(id);

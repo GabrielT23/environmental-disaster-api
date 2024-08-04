@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from '../src/app.module';
+import { AppModule } from '../../src/app.module';
 import { PrismaService } from '@core/data/prisma/prisma.service';
 import { CampaignStatus } from '@prisma/client';
 
@@ -22,10 +22,10 @@ describe('CampaignsController (e2e)', () => {
     await prismaService.campaign.deleteMany();
     const createUserDto = {
         name: 'Admin teste campanha',
-        email: 'admincampanha@example.com',
+        email: 'admin234campanha@example.com',
         password: 'admin1234',
         role: 'admin',
-        cpf: '88888888888',
+        cpf: '882873888888',
         address: {
           street: 'Admin Street',
           city: 'Admin City',
