@@ -27,6 +27,32 @@ maneira possível com essas situações.
   ![image](https://github.com/user-attachments/assets/d298eb29-adff-425f-8b8b-c1266c42263c)
 
 
+### **Endpoints**
+ * **occurences**:
+   1. /occurences:
+       - methods: GET(public), POST(admin), PATCH(admin), DELETE(admin)
+   2. /occurences:id:
+      - methods: GET(public)
+ * **categories**:
+   1. /categories:
+       - methods: GET(public), POST(admin), PATCH(admin), DELETE(admin)
+   2. /categories:id:
+       - methods: GET(public)
+ * **users**:
+   1. /users:
+       - methods: GET(client), POST(public), PATCH(client), DELETE(client)
+   2. /users:id:
+       - methods: GET(client)
+ * **addresses**:
+   1. /addresses:
+       - methods: POST(client), PATCH(client), DELETE(client)
+   2. /addresses:id:
+       - methods: GET(client)
+ * **campaigns**:
+   1. /campaigns:
+       - methods: GET(client), POST(admin)), PATCH(client), DELETE(client)
+   2. /campaigns:id:
+       - methods: GET(client)
 ### **Começando**
 
 1. **Clone o repositório:**
