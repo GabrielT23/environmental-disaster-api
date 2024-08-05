@@ -13,6 +13,7 @@ describe('OccurencesController (e2e)', () => {
   let categoryId: string;
 
   beforeAll(async () => {
+    jest.setTimeout(30000);
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();

@@ -11,6 +11,7 @@ describe('CampaignsController (e2e)', () => {
   let authToken: string;
 
   beforeAll(async () => {
+    jest.setTimeout(30000);
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     }).compile();

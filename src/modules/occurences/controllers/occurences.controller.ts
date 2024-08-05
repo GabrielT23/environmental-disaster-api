@@ -67,15 +67,11 @@ export class OccurencesController {
   }
 
   @Get()
-  @UseGuards(AuthGuard)
-  @RoleUser('admin')
   async findAll() {
     return await this.occurencesService.findAll();
   }
 
   @Get(':id')
-  @UseGuards(AuthGuard)
-  @RoleUser('admin')
   async findOne(@Param('id', new ParseUUIDPipe()) id: string) {
     return await this.occurencesService.findOne(id);
   }

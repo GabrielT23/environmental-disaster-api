@@ -1,19 +1,16 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "dist/main.ts",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "./src/main.ts"
-      }
-    ],
-    "env": {
-      "DATABASE_URL": "postgresql://username:password@host:port/database"
+  "version": 2,
+  "builds": [
+    {
+      "src": "dist/src/main.js",
+      "use": "@vercel/node"
     }
-  }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "dist/src/main.js"
+    }
+  ]
+}
   
